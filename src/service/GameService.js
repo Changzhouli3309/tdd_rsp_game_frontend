@@ -50,9 +50,9 @@ const GameService = {
             return { error: error };
         }
     },
-    getRounds: async () => {
+    getRounds: async (id) => {
         try {
-            const res = await fetch('http://localhost:8080/api/game/${id}/rounds');
+            const res = await fetch('http://localhost:8080/api/game/' + id + '/rounds');
             if (res.status !== 401) {
                 const data = await res.json();
                 return data;

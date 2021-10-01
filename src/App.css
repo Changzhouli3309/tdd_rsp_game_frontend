@@ -37,7 +37,11 @@
   }
 }
 
-.header1 {
+.center {
   align-items: center;
   text-align: center;
+}
+
+label{
+  margin: 0 1rem;
 }

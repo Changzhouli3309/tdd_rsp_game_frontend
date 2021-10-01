@@ -4,7 +4,7 @@ import GameService from "../../service/GameService"
 export const InGame = ({ gameId, changeInGame, changeGameList }) => {
 
     const [roundList, setRoundList] = useState([])
-    const [isWinner, setIsWinner] = useState(false)
+    const [isEnd, setIsEnd] = useState(false)
     const [playerMove, setPlayerMove] = useState("")
     const [game, setGame] = useState(Object)
     const [roundListHook, setRoundListHook] = useState(false)
@@ -39,8 +39,8 @@ export const InGame = ({ gameId, changeInGame, changeGameList }) => {
         await GameService.newRound(gameId, roundReq);
     }
 
-    const checkwin = () => {
-        setIsWinner(game.win === game.scoreLimit || game.lose === game.scoreLimit)
+    const checkEnd = () => {
+        setIsEnd(game.win === game.scoreLimit || game.lose === game.scoreLimit)
     }
 
     const changeRoundList = () => {
@@ -63,9 +63,10 @@ export const InGame = ({ gameId, changeInGame, changeGameList }) => {
         if (playerMove === "ROCK" || playerMove === "PAPER" || playerMove === "SCISSORS") {
             setLaoding(true)
             addround(playerMove)
-            updateGame()
-            changeRoundList()
-            checkwin()
+            setTimeout(updateGame, 1000);
+            setTimeout(changeRoundList, 1500);
+            setTimeout(checkEnd, 3000);
+
         } else {
             alert("Wrong input! Try again!")
         }
@@ -78,13 +79,14 @@ export const InGame = ({ gameId, changeInGame, changeGameList }) => {
     }
 
     return (
-        <> {isWinner ?
+        <> {isEnd ?
             <div className="center">
                 <h2>{getResult(game)}</h2>
                 <input type="button" value="OK" onClick={goBack} />
             </div>
             :
             <div className="center">
+                <h3>scoreLimit: {game.scoreLimit}</h3>
                 <h2>choose your move</h2>
                 <form className="center">
                     <input list="moves" name="playeMove" onChange={e => setPlayerMove(e.target.value)} />
